@@ -14,6 +14,7 @@
 		08BBE891237376DA00DFF2F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BBE890237376DA00DFF2F7 /* Assets.xcassets */; };
 		08BBE894237376DA00DFF2F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BBE892237376DA00DFF2F7 /* LaunchScreen.storyboard */; };
 		08BBE89F237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE89E237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift */; };
+		08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE8AA2373776900DFF2F7 /* Secrets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		08BBE89A237376DA00DFF2F7 /* FourSquare Map ProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FourSquare Map ProjectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBE89E237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourSquare_Map_ProjectTests.swift; sourceTree = "<group>"; };
 		08BBE8A0237376DA00DFF2F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08BBE8AA2373776900DFF2F7 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				08BBE887237376D700DFF2F7 /* AppDelegate.swift */,
 				08BBE889237376D700DFF2F7 /* SceneDelegate.swift */,
 				08BBE892237376DA00DFF2F7 /* LaunchScreen.storyboard */,
+				08BBE8AA2373776900DFF2F7 /* Secrets.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08BBE88C237376D700DFF2F7 /* ViewController.swift in Sources */,
+				08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */,
 				08BBE888237376D700DFF2F7 /* AppDelegate.swift in Sources */,
 				08BBE88A237376D700DFF2F7 /* SceneDelegate.swift in Sources */,
 			);
