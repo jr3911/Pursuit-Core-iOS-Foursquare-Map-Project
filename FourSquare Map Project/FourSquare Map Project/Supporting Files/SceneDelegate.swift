@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let collectionVC = CollectionViewController()
         
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        collectionVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
+        collectionVC.tabBarItem = UITabBarItem(title: "Collections", image: UIImage(systemName: "folder.fill.badge.plus"), tag: 1)
         
         tabVC.viewControllers = [searchVC, collectionVC]
         
