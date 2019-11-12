@@ -39,6 +39,10 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        locationManager.delegate = self
+        addSubviews()
+        applyAllConstraints()
+        requestLocationAndAuthorizeIfNeeded()
     }
     
     
@@ -66,7 +70,26 @@ class SearchViewController: UIViewController {
     
 }
 
-
+//MARK: CLLocationManagerDelegate Extension
+extension SearchViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("New locations: \(locations)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("An error occured when trying to retrieve locations: \(error)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("Authorization status changed to \(status.rawValue)")
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        default:
+            break
+        }
+    }
+    
 }
 
 
