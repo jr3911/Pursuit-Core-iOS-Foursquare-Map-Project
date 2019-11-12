@@ -15,14 +15,12 @@ class SearchViewController: UIViewController {
     lazy var venueSearchBar: UISearchBar = {
         let searchbar = UISearchBar()
         searchbar.placeholder = "Search for a venue"
-        searchbar.showsCancelButton = true
         return searchbar
     }()
     
     lazy var geoLocationSearchBar: UISearchBar = {
         let searchbar = UISearchBar()
         searchbar.placeholder = "Enter a location"
-//        searchbar.showsCancelButton = true
         return searchbar
     }()
     
@@ -49,6 +47,8 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         locationManager.delegate = self
+        venueSearchBar.delegate = self
+        geoLocationSearchBar.delegate = self
         addSubviews()
         applyAllConstraints()
         requestLocationAndAuthorizeIfNeeded()
@@ -101,6 +101,23 @@ extension SearchViewController: CLLocationManagerDelegate {
         }
     }
     
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
+
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(false, animated: true)
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
 }
 
 
