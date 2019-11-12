@@ -40,7 +40,65 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
+    
+    
+    //MARK: Private Functions
+    private func addSubviews() {
+        view.addSubview(venueSearchBar)
+        view.addSubview(geoLocationSearchBar)
+        view.addSubview(mapView)
+    }
+    
+    private func applyAllConstraints() {
+        constrainGeoLocationSearchBar()
+        constrainVenueSearchBar()
+        constrainMapView()
+    }
+    
+    private func requestLocationAndAuthorizeIfNeeded() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+        default:
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+}
 
 
 }
 
+
+//MARK: Constraints
+extension SearchViewController {
+    private func constrainVenueSearchBar() {
+        venueSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            venueSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            venueSearchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            venueSearchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            venueSearchBar.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func constrainGeoLocationSearchBar() {
+        geoLocationSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            geoLocationSearchBar.topAnchor.constraint(equalTo: venueSearchBar.bottomAnchor, constant: 10),
+            geoLocationSearchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            geoLocationSearchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            geoLocationSearchBar.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func constrainMapView() {
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: geoLocationSearchBar.bottomAnchor, constant: 10),
+            mapView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+}
