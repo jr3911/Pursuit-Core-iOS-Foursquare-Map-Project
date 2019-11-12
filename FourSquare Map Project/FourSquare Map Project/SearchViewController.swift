@@ -31,6 +31,15 @@ class SearchViewController: UIViewController {
         return mv
     }()
    
+    lazy var listViewButton: UIButton = {
+        let button = UIButton()
+        
+        //adjusts image of button
+        let buttonImageConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: UIImage.SymbolWeight.semibold)
+        button.setImage(UIImage(systemName: "line.horizontal.3", withConfiguration: buttonImageConfiguration), for: .normal)
+        
+        return button
+    }()
     
     //MARK: Properties
     private let locationManager = CLLocationManager()
@@ -51,12 +60,14 @@ class SearchViewController: UIViewController {
         view.addSubview(venueSearchBar)
         view.addSubview(geoLocationSearchBar)
         view.addSubview(mapView)
+        view.addSubview(listViewButton)
     }
     
     private func applyAllConstraints() {
         constrainGeoLocationSearchBar()
         constrainVenueSearchBar()
         constrainMapView()
+        constrainListViewButton()
     }
     
     private func requestLocationAndAuthorizeIfNeeded() {
@@ -100,8 +111,8 @@ extension SearchViewController {
         NSLayoutConstraint.activate([
             venueSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             venueSearchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            venueSearchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            venueSearchBar.heightAnchor.constraint(equalToConstant: 30)
+            venueSearchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            venueSearchBar.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -111,7 +122,7 @@ extension SearchViewController {
             geoLocationSearchBar.topAnchor.constraint(equalTo: venueSearchBar.bottomAnchor, constant: 10),
             geoLocationSearchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             geoLocationSearchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            geoLocationSearchBar.heightAnchor.constraint(equalToConstant: 30)
+            geoLocationSearchBar.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -122,6 +133,16 @@ extension SearchViewController {
             mapView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func constrainListViewButton() {
+        listViewButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            listViewButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            listViewButton.leadingAnchor.constraint(equalTo: venueSearchBar.trailingAnchor),
+            listViewButton.heightAnchor.constraint(equalToConstant: 50),
+            listViewButton.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
 }
