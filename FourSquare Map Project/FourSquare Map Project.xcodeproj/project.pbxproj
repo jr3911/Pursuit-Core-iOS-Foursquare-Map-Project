@@ -15,6 +15,7 @@
 		08BBE894237376DA00DFF2F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BBE892237376DA00DFF2F7 /* LaunchScreen.storyboard */; };
 		08BBE89F237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE89E237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift */; };
 		08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE8AA2373776900DFF2F7 /* Secrets.swift */; };
+		08FDB5C6237CB0DD00C71DD9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0826077D237C84EC00BEC867 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0826077D237C84EC00BEC867 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		08BBE884237376D700DFF2F7 /* FourSquare Map Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FourSquare Map Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBE887237376D700DFF2F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08FDB5C6237CB0DD00C71DD9 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +63,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0826077C237C84EB00BEC867 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0826077D237C84EC00BEC867 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		08BBE87B237376D700DFF2F7 = {
 			isa = PBXGroup;
 			children = (
 				08BBE886237376D700DFF2F7 /* FourSquare Map Project */,
 				08BBE89D237376DA00DFF2F7 /* FourSquare Map ProjectTests */,
 				08BBE885237376D700DFF2F7 /* Products */,
+				0826077C237C84EB00BEC867 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
