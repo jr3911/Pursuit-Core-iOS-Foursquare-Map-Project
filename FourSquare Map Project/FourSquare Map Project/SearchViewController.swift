@@ -46,9 +46,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        locationManager.delegate = self
-        venueSearchBar.delegate = self
-        geoLocationSearchBar.delegate = self
+        configureDelegates()
         addSubviews()
         applyAllConstraints()
         requestLocationAndAuthorizeIfNeeded()
@@ -56,6 +54,13 @@ class SearchViewController: UIViewController {
     
     
     //MARK: Private Functions
+    private func configureDelegates() {
+        locationManager.delegate = self
+        mapView.delegate = self
+        venueSearchBar.delegate = self
+        geoLocationSearchBar.delegate = self
+    }
+    
     private func addSubviews() {
         view.addSubview(venueSearchBar)
         view.addSubview(geoLocationSearchBar)
