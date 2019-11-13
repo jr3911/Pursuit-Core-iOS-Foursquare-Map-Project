@@ -79,17 +79,20 @@ class SearchViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
         default:
             locationManager.requestWhenInUseAuthorization()
         }
     }
+   
     
 }
 
-//MARK: CLLocationManagerDelegate Extension
+//MARK: LocationManager Delegate
 extension SearchViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("New locations: \(locations)")
+//        print("New locations: \(locations)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -97,7 +100,7 @@ extension SearchViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("Authorization status changed to \(status.rawValue)")
+//        print("Authorization status changed to \(status.rawValue)")
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.requestLocation()
