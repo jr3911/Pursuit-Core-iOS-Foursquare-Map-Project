@@ -16,6 +16,11 @@
 		08BBE89F237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE89E237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift */; };
 		08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE8AA2373776900DFF2F7 /* Secrets.swift */; };
 		08FDB5C6237CB0DD00C71DD9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0826077D237C84EC00BEC867 /* MapKit.framework */; };
+		08FDB5CA237CBCEC00C71DD9 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FDB5C9237CBCEC00C71DD9 /* Venue.swift */; };
+		08FDB5CD237CBD3A00C71DD9 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FDB5CC237CBD3A00C71DD9 /* NetworkHelper.swift */; };
+		08FDB5CF237CBD4C00C71DD9 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FDB5CE237CBD4C00C71DD9 /* AppError.swift */; };
+		08FDB5D1237CBD5800C71DD9 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FDB5D0237CBD5800C71DD9 /* ImageHelper.swift */; };
+		08FDB5D4237CBD8800C71DD9 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FDB5D3237CBD8800C71DD9 /* PersistenceHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +47,11 @@
 		08BBE89E237376DA00DFF2F7 /* FourSquare_Map_ProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourSquare_Map_ProjectTests.swift; sourceTree = "<group>"; };
 		08BBE8A0237376DA00DFF2F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08BBE8AA2373776900DFF2F7 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		08FDB5C9237CBCEC00C71DD9 /* Venue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
+		08FDB5CC237CBD3A00C71DD9 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
+		08FDB5CE237CBD4C00C71DD9 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		08FDB5D0237CBD5800C71DD9 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		08FDB5D3237CBD8800C71DD9 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +103,10 @@
 		08BBE886237376D700DFF2F7 /* FourSquare Map Project */ = {
 			isa = PBXGroup;
 			children = (
-				08BBE88B237376D700DFF2F7 /* SearchViewController.swift */,
-				08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */,
+				08FDB5C7237CBCD200C71DD9 /* View Controllers */,
+				08FDB5C8237CBCD900C71DD9 /* Models */,
+				08FDB5CB237CBD0D00C71DD9 /* Network Files */,
+				08FDB5D2237CBD7600C71DD9 /* Persistence Files */,
 				08BBE8A9237376E900DFF2F7 /* Supporting Files */,
 				08BBE890237376DA00DFF2F7 /* Assets.xcassets */,
 				08BBE895237376DA00DFF2F7 /* Info.plist */,
@@ -120,6 +132,41 @@
 				08BBE8AA2373776900DFF2F7 /* Secrets.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		08FDB5C7237CBCD200C71DD9 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				08BBE88B237376D700DFF2F7 /* SearchViewController.swift */,
+				08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		08FDB5C8237CBCD900C71DD9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				08FDB5C9237CBCEC00C71DD9 /* Venue.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		08FDB5CB237CBD0D00C71DD9 /* Network Files */ = {
+			isa = PBXGroup;
+			children = (
+				08FDB5CC237CBD3A00C71DD9 /* NetworkHelper.swift */,
+				08FDB5CE237CBD4C00C71DD9 /* AppError.swift */,
+				08FDB5D0237CBD5800C71DD9 /* ImageHelper.swift */,
+			);
+			path = "Network Files";
+			sourceTree = "<group>";
+		};
+		08FDB5D2237CBD7600C71DD9 /* Persistence Files */ = {
+			isa = PBXGroup;
+			children = (
+				08FDB5D3237CBD8800C71DD9 /* PersistenceHelper.swift */,
+			);
+			path = "Persistence Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,8 +269,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08FDB5CD237CBD3A00C71DD9 /* NetworkHelper.swift in Sources */,
 				08BBE88C237376D700DFF2F7 /* SearchViewController.swift in Sources */,
+				08FDB5D1237CBD5800C71DD9 /* ImageHelper.swift in Sources */,
+				08FDB5D4237CBD8800C71DD9 /* PersistenceHelper.swift in Sources */,
+				08FDB5CA237CBCEC00C71DD9 /* Venue.swift in Sources */,
 				08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */,
+				08FDB5CF237CBD4C00C71DD9 /* AppError.swift in Sources */,
 				08BBE888237376D700DFF2F7 /* AppDelegate.swift in Sources */,
 				08BBE88A237376D700DFF2F7 /* SceneDelegate.swift in Sources */,
 				08A307DE2374BDCA00BBD2AC /* CollectionViewController.swift in Sources */,

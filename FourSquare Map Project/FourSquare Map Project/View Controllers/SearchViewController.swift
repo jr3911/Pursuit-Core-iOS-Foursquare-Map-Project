@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 class SearchViewController: UIViewController {
-    //MARK: UI Objects
+    //MARK: - UI Objects
     lazy var venueSearchBar: UISearchBar = {
         let searchbar = UISearchBar()
         searchbar.placeholder = "Search for a venue"
@@ -39,10 +39,13 @@ class SearchViewController: UIViewController {
         return button
     }()
     
-    //MARK: Properties
+    
+    //MARK: - Properties
     private let locationManager = CLLocationManager()
     
-    //MARK: LifeCycle Methods
+    
+    
+    //MARK: - LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -53,7 +56,7 @@ class SearchViewController: UIViewController {
     }
     
     
-    //MARK: Private Functions
+    //MARK: - Private Functions
     private func configureDelegates() {
         locationManager.delegate = self
         mapView.delegate = self
@@ -89,7 +92,7 @@ class SearchViewController: UIViewController {
     
 }
 
-//MARK: LocationManager Delegate
+//MARK: - LocationManager Delegate
 extension SearchViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        print("New locations: \(locations)")
@@ -112,7 +115,7 @@ extension SearchViewController: CLLocationManagerDelegate {
 }
 
 
-//MARK: SearchBar Delegate
+//MARK: - SearchBar Delegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
@@ -131,7 +134,7 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 
-//MARK: MapKit Delegate
+//MARK: - MapKit Delegate
 extension SearchViewController: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         mapView.userTrackingMode = .followWithHeading
@@ -139,7 +142,7 @@ extension SearchViewController: MKMapViewDelegate {
 }
 
 
-//MARK: Constraints
+//MARK: - Constraints
 extension SearchViewController {
     private func constrainVenueSearchBar() {
         venueSearchBar.translatesAutoresizingMaskIntoConstraints = false
