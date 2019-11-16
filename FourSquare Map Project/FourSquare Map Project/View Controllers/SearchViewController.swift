@@ -43,7 +43,43 @@ class SearchViewController: UIViewController {
     //MARK: - Properties
     private let locationManager = CLLocationManager()
     
+    private let searchRadius: Double = 5000
     
+    private var venues: [Venue] = [] {
+        didSet {
+            //create activity indicator
+            let activityIndicator = UIActivityIndicatorView()
+            activityIndicator.center = self.view.center
+            activityIndicator.startAnimating()
+            self.view.addSubview(activityIndicator)
+
+            let annotations = self.mapView.annotations
+            self.mapView.removeAnnotations(annotations)
+            
+            self.venues.forEach { (venue) in
+                //search request
+                let searchRequest = MKLocalSearch.Request()
+                searchRequest.naturalLanguageQuery = venue.venue?.name
+                let activeSearch = MKLocalSearch(request: searchRequest)
+                activeSearch.start { (response, error) in
+                    activityIndicator.stopAnimating()
+                    
+                    if response == nil {
+                        print(error.debugDescription)
+                    } else {
+                        //get data
+                        let latitud = response?.boundingRegion.center.latitude
+                        let longitud = response?.boundingRegion.center.longitude
+                        
+                        let newAnnotation = MKPointAnnotation()
+                        newAnnotation.title = response?.mapItems.first?.name
+                        newAnnotation.coordinate = CLLocationCoordinate2D(latitude: latitud!, longitude: longitud!)
+                        self.mapView.addAnnotation(newAnnotation)
+                    }
+                }
+            }
+        }
+    }
     
     //MARK: - LifeCycle Methods
     override func viewDidLoad() {
@@ -81,21 +117,30 @@ class SearchViewController: UIViewController {
     private func requestLocationAndAuthorizeIfNeeded() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse, .authorizedAlways:
+            mapView.userTrackingMode = .follow
             locationManager.requestLocation()
             locationManager.startUpdatingLocation()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            if let userLocation = locationManager.location?.coordinate {
+                centerMapOnLocation(location: userLocation)
+            }
         default:
             locationManager.requestWhenInUseAuthorization()
         }
     }
-   
+    
+    //to zoom in the annotation
+    private func centerMapOnLocation(location: CLLocationCoordinate2D) {
+        let coordinateRegion = MKCoordinateRegion(center: location, latitudinalMeters: searchRadius * 2, longitudinalMeters: searchRadius * 2)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
     
 }
 
 //MARK: - LocationManager Delegate
 extension SearchViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print("New locations: \(locations)")
+        print("New locations: \(locations)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -103,7 +148,7 @@ extension SearchViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-//        print("Authorization status changed to \(status.rawValue)")
+        print("Authorization status changed to \(status.rawValue)")
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.requestLocation()
@@ -121,7 +166,7 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.setShowsCancelButton(true, animated: true)
         return true
     }
-
+    
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(false, animated: true)
         return true
@@ -131,14 +176,29 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        
+        if let userLocation = locationManager.location {
+            centerMapOnLocation(location: userLocation.coordinate)
+        }
+        
+        VenueFetchingService.manager.getVenues(lat: (locationManager.location?.coordinate.latitude)!, long: (locationManager.location?.coordinate.longitude)!, query: searchBar.text!) { (result) in
+            switch result {
+            case .success(let retrievedVenues):
+                self.venues = retrievedVenues
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
 }
 
 
 //MARK: - MapKit Delegate
 extension SearchViewController: MKMapViewDelegate {
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        mapView.userTrackingMode = .followWithHeading
-    }
 }
 
 
