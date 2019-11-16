@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0895BCD1237F429300B96A0C /* VenueFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895BCD0237F429300B96A0C /* VenueFetchingService.swift */; };
 		08A307DE2374BDCA00BBD2AC /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */; };
 		08BBE888237376D700DFF2F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE887237376D700DFF2F7 /* AppDelegate.swift */; };
 		08BBE88A237376D700DFF2F7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE889237376D700DFF2F7 /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		0826077D237C84EC00BEC867 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		0895BCD0237F429300B96A0C /* VenueFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueFetchingService.swift; sourceTree = "<group>"; };
 		08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		08BBE884237376D700DFF2F7 /* FourSquare Map Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FourSquare Map Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBE887237376D700DFF2F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +83,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0895BCCF237F425D00B96A0C /* API Clients */ = {
+			isa = PBXGroup;
+			children = (
+				0895BCD0237F429300B96A0C /* VenueFetchingService.swift */,
+			);
+			path = "API Clients";
+			sourceTree = "<group>";
+		};
 		08BBE87B237376D700DFF2F7 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +115,7 @@
 			children = (
 				08FDB5C7237CBCD200C71DD9 /* View Controllers */,
 				08FDB5C8237CBCD900C71DD9 /* Models */,
+				0895BCCF237F425D00B96A0C /* API Clients */,
 				08FDB5CB237CBD0D00C71DD9 /* Network Files */,
 				08FDB5D2237CBD7600C71DD9 /* Persistence Files */,
 				08BBE8A9237376E900DFF2F7 /* Supporting Files */,
@@ -269,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0895BCD1237F429300B96A0C /* VenueFetchingService.swift in Sources */,
 				08FDB5CD237CBD3A00C71DD9 /* NetworkHelper.swift in Sources */,
 				08BBE88C237376D700DFF2F7 /* SearchViewController.swift in Sources */,
 				08FDB5D1237CBD5800C71DD9 /* ImageHelper.swift in Sources */,
