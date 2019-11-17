@@ -20,15 +20,16 @@ class SearchViewController: UIViewController {
     
     lazy var geoLocationSearchBar: UISearchBar = {
         let searchbar = UISearchBar()
-        searchbar.placeholder = "Enter a location"
+        searchbar.placeholder = "New York, NY"
         return searchbar
     }()
     
     lazy var mapView: MKMapView = {
         let mv = MKMapView()
+        mv.isRotateEnabled = false
         return mv
     }()
-   
+    
     lazy var listViewButton: UIButton = {
         let button = UIButton()
         
@@ -37,6 +38,21 @@ class SearchViewController: UIViewController {
         button.setImage(UIImage(systemName: "line.horizontal.3", withConfiguration: buttonImageConfiguration), for: .normal)
         
         return button
+    }()
+    
+    lazy var resultsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.sectionInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+        layout.minimumLineSpacing = 20
+        
+        let cv = UICollectionView(frame: CGRect(x: 100, y: 100, width: 100, height: 100), collectionViewLayout: layout)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(VenueCVCell.self, forCellWithReuseIdentifier: "venueCell")
+        cv.backgroundColor = .clear
+        return cv
     }()
     
     
@@ -62,8 +78,6 @@ class SearchViewController: UIViewController {
                 searchRequest.naturalLanguageQuery = venue.venue?.name
                 let activeSearch = MKLocalSearch(request: searchRequest)
                 activeSearch.start { (response, error) in
-                    activityIndicator.stopAnimating()
-                    
                     if response == nil {
                         print(error.debugDescription)
                     } else {
@@ -78,6 +92,9 @@ class SearchViewController: UIViewController {
                     }
                 }
             }
+            activityIndicator.stopAnimating()
+            
+            self.resultsCollectionView.reloadData()
         }
     }
     
@@ -105,6 +122,7 @@ class SearchViewController: UIViewController {
         view.addSubview(geoLocationSearchBar)
         view.addSubview(mapView)
         view.addSubview(listViewButton)
+        view.addSubview(resultsCollectionView)
     }
     
     private func applyAllConstraints() {
@@ -112,6 +130,7 @@ class SearchViewController: UIViewController {
         constrainVenueSearchBar()
         constrainMapView()
         constrainListViewButton()
+        constrainCollectionView()
     }
     
     private func requestLocationAndAuthorizeIfNeeded() {
@@ -122,7 +141,7 @@ class SearchViewController: UIViewController {
             locationManager.startUpdatingLocation()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             if let userLocation = locationManager.location?.coordinate {
-                centerMapOnLocation(location: userLocation)
+                centerMapOnLocation(location: userLocation, zoomLevel: 2)
             }
         default:
             locationManager.requestWhenInUseAuthorization()
@@ -130,8 +149,8 @@ class SearchViewController: UIViewController {
     }
     
     //to zoom in the annotation
-    private func centerMapOnLocation(location: CLLocationCoordinate2D) {
-        let coordinateRegion = MKCoordinateRegion(center: location, latitudinalMeters: searchRadius * 2, longitudinalMeters: searchRadius * 2)
+    private func centerMapOnLocation(location: CLLocationCoordinate2D, zoomLevel: Double) {
+        let coordinateRegion = MKCoordinateRegion(center: location, latitudinalMeters: searchRadius * zoomLevel, longitudinalMeters: searchRadius * zoomLevel)
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
@@ -181,15 +200,17 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         
         if let userLocation = locationManager.location {
-            centerMapOnLocation(location: userLocation.coordinate)
+            centerMapOnLocation(location: userLocation.coordinate, zoomLevel: 4)
         }
         
-        VenueFetchingService.manager.getVenues(lat: (locationManager.location?.coordinate.latitude)!, long: (locationManager.location?.coordinate.longitude)!, query: searchBar.text!) { (result) in
-            switch result {
-            case .success(let retrievedVenues):
-                self.venues = retrievedVenues
-            case .failure(let error):
-                print(error)
+        DispatchQueue.main.async {
+            VenueFetchingService.manager.getVenues(lat: (self.locationManager.location?.coordinate.latitude)!, long: (self.locationManager.location?.coordinate.longitude)!, query: searchBar.text!) { (result) in
+                switch result {
+                case .success(let retrievedVenues):
+                    self.venues = retrievedVenues
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
     }
@@ -201,6 +222,38 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController: MKMapViewDelegate {
 }
 
+
+//MARK: - CollectionView Delegate
+extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return venues.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "venueCell", for: indexPath) as! VenueCVCell
+        
+        cell.imageView.image = UIImage(systemName: "photo.fill")
+        
+        if let venueID = venues[indexPath.row].venue?.id {
+            DispatchQueue.main.async {
+                VenuePhotoFetchingService.manager.getVenuePhoto(venueID: venueID) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                    case .success(let venueImage):
+                        DispatchQueue.main.async {
+                            cell.imageView.image = venueImage
+                        }
+                    }
+                }
+            }
+        }
+        
+        return cell
+    }
+    
+    
+}
 
 //MARK: - Constraints
 extension SearchViewController {
@@ -241,6 +294,16 @@ extension SearchViewController {
             listViewButton.leadingAnchor.constraint(equalTo: venueSearchBar.trailingAnchor),
             listViewButton.heightAnchor.constraint(equalToConstant: 50),
             listViewButton.widthAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func constrainCollectionView() {
+        resultsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            resultsCollectionView.heightAnchor.constraint(equalToConstant: 100),
+            resultsCollectionView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
+            resultsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            resultsCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
 }

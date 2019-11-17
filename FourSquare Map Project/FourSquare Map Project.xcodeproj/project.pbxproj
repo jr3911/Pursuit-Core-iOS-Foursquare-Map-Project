@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0895BCD1237F429300B96A0C /* VenueFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895BCD0237F429300B96A0C /* VenueFetchingService.swift */; };
+		0895BCD62381C3B600B96A0C /* VenueCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895BCD52381C3B600B96A0C /* VenueCVCell.swift */; };
+		0895BCD82381CC4700B96A0C /* VenuePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895BCD72381CC4700B96A0C /* VenuePhoto.swift */; };
+		0895BCDA2381CCE100B96A0C /* VenuePhotoFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895BCD92381CCE100B96A0C /* VenuePhotoFetchingService.swift */; };
 		08A307DE2374BDCA00BBD2AC /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */; };
 		08BBE888237376D700DFF2F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE887237376D700DFF2F7 /* AppDelegate.swift */; };
 		08BBE88A237376D700DFF2F7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBE889237376D700DFF2F7 /* SceneDelegate.swift */; };
@@ -37,6 +40,9 @@
 /* Begin PBXFileReference section */
 		0826077D237C84EC00BEC867 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0895BCD0237F429300B96A0C /* VenueFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueFetchingService.swift; sourceTree = "<group>"; };
+		0895BCD52381C3B600B96A0C /* VenueCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueCVCell.swift; sourceTree = "<group>"; };
+		0895BCD72381CC4700B96A0C /* VenuePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuePhoto.swift; sourceTree = "<group>"; };
+		0895BCD92381CCE100B96A0C /* VenuePhotoFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuePhotoFetchingService.swift; sourceTree = "<group>"; };
 		08A307DD2374BDCA00BBD2AC /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		08BBE884237376D700DFF2F7 /* FourSquare Map Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FourSquare Map Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBE887237376D700DFF2F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,8 +93,17 @@
 			isa = PBXGroup;
 			children = (
 				0895BCD0237F429300B96A0C /* VenueFetchingService.swift */,
+				0895BCD92381CCE100B96A0C /* VenuePhotoFetchingService.swift */,
 			);
 			path = "API Clients";
+			sourceTree = "<group>";
+		};
+		0895BCD42381C38600B96A0C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0895BCD52381C3B600B96A0C /* VenueCVCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		08BBE87B237376D700DFF2F7 = {
@@ -113,6 +128,7 @@
 		08BBE886237376D700DFF2F7 /* FourSquare Map Project */ = {
 			isa = PBXGroup;
 			children = (
+				0895BCD42381C38600B96A0C /* Views */,
 				08FDB5C7237CBCD200C71DD9 /* View Controllers */,
 				08FDB5C8237CBCD900C71DD9 /* Models */,
 				0895BCCF237F425D00B96A0C /* API Clients */,
@@ -158,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				08FDB5C9237CBCEC00C71DD9 /* Venue.swift */,
+				0895BCD72381CC4700B96A0C /* VenuePhoto.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -283,11 +300,14 @@
 				0895BCD1237F429300B96A0C /* VenueFetchingService.swift in Sources */,
 				08FDB5CD237CBD3A00C71DD9 /* NetworkHelper.swift in Sources */,
 				08BBE88C237376D700DFF2F7 /* SearchViewController.swift in Sources */,
+				0895BCD82381CC4700B96A0C /* VenuePhoto.swift in Sources */,
 				08FDB5D1237CBD5800C71DD9 /* ImageHelper.swift in Sources */,
+				0895BCD62381C3B600B96A0C /* VenueCVCell.swift in Sources */,
 				08FDB5D4237CBD8800C71DD9 /* PersistenceHelper.swift in Sources */,
 				08FDB5CA237CBCEC00C71DD9 /* Venue.swift in Sources */,
 				08BBE8AB2373776900DFF2F7 /* Secrets.swift in Sources */,
 				08FDB5CF237CBD4C00C71DD9 /* AppError.swift in Sources */,
+				0895BCDA2381CCE100B96A0C /* VenuePhotoFetchingService.swift in Sources */,
 				08BBE888237376D700DFF2F7 /* AppDelegate.swift in Sources */,
 				08BBE88A237376D700DFF2F7 /* SceneDelegate.swift in Sources */,
 				08A307DE2374BDCA00BBD2AC /* CollectionViewController.swift in Sources */,
