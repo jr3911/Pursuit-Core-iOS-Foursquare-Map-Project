@@ -36,7 +36,7 @@ class SearchViewController: UIViewController {
         //adjusts image of button
         let buttonImageConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: UIImage.SymbolWeight.semibold)
         button.setImage(UIImage(systemName: "line.horizontal.3", withConfiguration: buttonImageConfiguration), for: .normal)
-        
+        button.addTarget(self, action: #selector(showListView), for: .touchUpInside)
         return button
     }()
     
@@ -178,6 +178,14 @@ class SearchViewController: UIViewController {
                 }
             }
         }
+    }
+    
+
+    //MARK: Objective-C Methods
+    @objc func showListView() {
+        let resultsVC = ResultsListVC()
+        resultsVC.venues = self.venues
+        navigationController?.pushViewController(resultsVC, animated: true)
     }
 }
 

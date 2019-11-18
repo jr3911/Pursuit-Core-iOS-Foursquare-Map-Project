@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let tabVC = UITabBarController()
-        let searchVC = SearchViewController()
+        let searchVC = UINavigationController(rootViewController: SearchViewController())
         let collectionVC = CollectionViewController()
         
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
