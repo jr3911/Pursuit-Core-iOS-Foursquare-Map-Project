@@ -68,7 +68,7 @@ class SearchViewController: UIViewController {
             activityIndicator.center = self.view.center
             activityIndicator.startAnimating()
             self.view.addSubview(activityIndicator)
-
+            
             let annotations = self.mapView.annotations
             self.mapView.removeAnnotations(annotations)
             
@@ -232,17 +232,20 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "venueCell", for: indexPath) as! VenueCVCell
         
-        cell.imageView.image = UIImage(systemName: "photo.fill")
-        
-        if let venueID = venues[indexPath.row].venue?.id {
-            DispatchQueue.main.async {
-                VenuePhotoFetchingService.manager.getVenuePhoto(venueID: venueID) { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let venueImage):
-                        DispatchQueue.main.async {
-                            cell.imageView.image = venueImage
+        if let venuePhoto = venues[indexPath.row].venue?.photoData {
+            cell.imageView.image = UIImage(data: venuePhoto)
+        } else {
+            if let venueID = venues[indexPath.row].venue?.id {
+                DispatchQueue.main.async {
+                    VenuePhotoFetchingService.manager.getVenuePhoto(venueID: venueID) { (result) in
+                        switch result {
+                        case .failure:
+                            self.venues[indexPath.row].venue?.photoData = UIImage(systemName: "photo.fill")?.pngData()
+                        case .success(let venueImage):
+                            DispatchQueue.main.async {
+                                self.venues[indexPath.row].venue?.photoData = venueImage.pngData()
+                                cell.imageView.image = venueImage
+                            }
                         }
                     }
                 }

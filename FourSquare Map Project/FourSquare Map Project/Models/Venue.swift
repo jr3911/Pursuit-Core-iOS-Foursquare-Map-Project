@@ -21,7 +21,7 @@ struct GroupsWrapper: Codable {
 }
 
 struct Venue: Codable {
-    let venue: VenueDetails?
+    var venue: VenueDetails?
 }
 
 struct VenueDetails: Codable {
@@ -34,6 +34,7 @@ struct VenueDetails: Codable {
     let state: String?
     let formattedAddress: String?
     let categories: [CategoriesWrapper]?
+    var photoData: Data?
 }
 
 struct LocationWrapper: Codable {
