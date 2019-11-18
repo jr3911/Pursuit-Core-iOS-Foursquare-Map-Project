@@ -14,7 +14,7 @@ class VenueFetchingService {
     
     func getVenues(lat: Double, long: Double, query: String, completionHandler: @escaping (Result<[Venue], AppError>) -> () ){
         //TODO: Change limit after confirmed working
-        let urlString = "https://api.foursquare.com/v2/venues/explore?client_id=\(Secrets().clientId)&client_secret=\(Secrets().clientSecret)&v=20191106&limit=10&ll=\(lat),\(long)&query=\(query)"
+        let urlString = "https://api.foursquare.com/v2/venues/explore?client_id=\(Secrets().clientId)&client_secret=\(Secrets().clientSecret)&v=20191106&limit=5&ll=\(lat),\(long)&query=\(query)"
         
         guard let url = URL(string: urlString)  else {
             completionHandler(.failure(.badURL))

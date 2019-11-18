@@ -66,6 +66,7 @@ class SearchViewController: UIViewController {
     private var venues: [Venue] = [] {
         willSet {
             self.venues.removeAll()
+            self.mapView.removeAnnotations(self.mapView.annotations)
         }
         didSet {
             //create activity indicator
@@ -73,10 +74,7 @@ class SearchViewController: UIViewController {
             activityIndicator.center = self.view.center
             activityIndicator.startAnimating()
             self.view.addSubview(activityIndicator)
-            
-            let annotations = self.mapView.annotations
-            self.mapView.removeAnnotations(annotations)
-            
+    
             self.venues.forEach { (venue) in
                 //search request
                 let searchRequest = MKLocalSearch.Request()
