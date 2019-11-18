@@ -59,9 +59,14 @@ class SearchViewController: UIViewController {
     //MARK: - Properties
     private let locationManager = CLLocationManager()
     
+    private let defaultNewYorkCoordinates = CLLocationCoordinate2D(latitude: 40.742054, longitude: -73.769417)
+    
     private let searchRadius: Double = 5000
     
     private var venues: [Venue] = [] {
+        willSet {
+            self.venues.removeAll()
+        }
         didSet {
             //create activity indicator
             let activityIndicator = UIActivityIndicatorView()
@@ -142,6 +147,9 @@ class SearchViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             if let userLocation = locationManager.location?.coordinate {
                 centerMapOnLocation(location: userLocation, zoomLevel: 2)
+                displayNameOfLocality(location: userLocation)
+            } else {
+                centerMapOnLocation(location: defaultNewYorkCoordinates, zoomLevel: 2)
             }
         default:
             locationManager.requestWhenInUseAuthorization()
@@ -154,6 +162,23 @@ class SearchViewController: UIViewController {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
+    
+    private func displayNameOfLocality(location: CLLocationCoordinate2D) {
+        let geocoder = CLGeocoder()
+        let locationObject = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        DispatchQueue.global(qos: .userInitiated).async {
+            geocoder.reverseGeocodeLocation(locationObject) { (placemarks, error) in
+                guard let placemark = placemarks?.first else {
+                    print(error.debugDescription)
+                    return
+                }
+                guard let placemarkLocality = placemark.locality?.description, let placemarkAdministrativeArea = placemark.administrativeArea?.description else {return}
+                DispatchQueue.main.async {
+                    self.geoLocationSearchBar.text = "\(placemarkLocality), \(placemarkAdministrativeArea)"
+                }
+            }
+        }
+    }
 }
 
 //MARK: - LocationManager Delegate
@@ -201,10 +226,42 @@ extension SearchViewController: UISearchBarDelegate {
         
         if let userLocation = locationManager.location {
             centerMapOnLocation(location: userLocation.coordinate, zoomLevel: 4)
+            guard let lat = self.locationManager.location?.coordinate.latitude, let long = self.locationManager.location?.coordinate.longitude else { return }
+            if let query = self.venueSearchBar.text {
+                self.loadVenues(lat: lat, long: long, query: query)
+            }
+        } else if geoLocationSearchBar.text != "" {
+            let geocoder = CLGeocoder()
+            guard let locationSearchString = geoLocationSearchBar.text else { return }
+            DispatchQueue.global(qos: .userInitiated).async {
+                geocoder.geocodeAddressString(locationSearchString) { (placemark, error) in
+                    DispatchQueue.main.async {
+                        guard let placemark = placemark?.first else {
+                            print(error.debugDescription)
+                            return
+                        }
+                        
+                        guard let placemarkCoordinates = placemark.location?.coordinate else {return}
+                        self.centerMapOnLocation(location: placemarkCoordinates, zoomLevel: 3)
+                        if let query = self.venueSearchBar.text {
+                            self.loadVenues(lat: placemarkCoordinates.latitude, long: placemarkCoordinates.longitude, query: query)
+                        }
+                    }
+                }
+            }
+        } else {
+            centerMapOnLocation(location: defaultNewYorkCoordinates, zoomLevel: 4)
+            if let query = self.venueSearchBar.text {
+                self.loadVenues(lat: defaultNewYorkCoordinates.latitude, long: defaultNewYorkCoordinates.longitude, query: query)
+            }
         }
         
+        
+    }
+    
+    private func loadVenues(lat: CLLocationDegrees, long: CLLocationDegrees, query: String) {
         DispatchQueue.main.async {
-            VenueFetchingService.manager.getVenues(lat: (self.locationManager.location?.coordinate.latitude)!, long: (self.locationManager.location?.coordinate.longitude)!, query: searchBar.text!) { (result) in
+            VenueFetchingService.manager.getVenues(lat: lat, long: long, query: query) { (result) in
                 switch result {
                 case .success(let retrievedVenues):
                     self.venues = retrievedVenues
@@ -240,7 +297,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
                     VenuePhotoFetchingService.manager.getVenuePhoto(venueID: venueID) { (result) in
                         switch result {
                         case .failure:
-                            self.venues[indexPath.row].venue?.photoData = UIImage(systemName: "photo.fill")?.pngData()
+                            self.venues[indexPath.row].venue?.photoData = UIImage(systemName: "photo.fill")?.withTintColor(.gray).pngData()
                         case .success(let venueImage):
                             DispatchQueue.main.async {
                                 self.venues[indexPath.row].venue?.photoData = venueImage.pngData()
